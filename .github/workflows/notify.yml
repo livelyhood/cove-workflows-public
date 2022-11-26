@@ -13,11 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # - name: read users.json
-      #   id: read-users
-      #   run: |
-      #     echo "users=$(jq . users.json) >> $GITHUB_OUTPUT"
-      #     echo "$GITHUB_OUTPUT"
+      - name: read users.json
+        id: read-users
+        run: |
+          ls -la
+          echo "users=$(jq . users.json) >> $GITHUB_OUTPUT"
+          echo "$GITHUB_OUTPUT"
       - name: Resolve slack committer
         id: slack-committer
         uses: penchef/slack-committer@v1.2
