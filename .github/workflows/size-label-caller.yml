@@ -4,7 +4,7 @@ on: [ pull_request ]
 
 jobs:
   label:
-    uses: ./size-label.yml@sl/feature/prlabler
+    uses: .github/workflows/size-label-caller.yml@sl/feature/prlabler
     with:
       sizes: >
         {
