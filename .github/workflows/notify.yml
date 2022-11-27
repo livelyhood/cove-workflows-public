@@ -1,4 +1,11 @@
 name: Notify Committer Re-useable workflow
+## How to
+
+# 1. add you github username and slack userID or a channelID to the json (user-mapping: ... ) below:
+#    - userID: https://www.workast.com/help/article/how-to-find-a-slack-user-id/) or
+#    - channelID: https://help.socialintents.com/article/148-how-to-find-your-slack-team-id-and-slack-channel-id)
+# 2. add "github-integration" Slack app to you apps by clicking https://app.slack.com/client/T048C4TSA/D04CSKKC2BT
+# 3. now you'll get notified about failing builds etc.
 on:
   workflow_call:
     inputs:
