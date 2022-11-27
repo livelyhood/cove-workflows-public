@@ -1,0 +1,34 @@
+name: Size Label
+
+on:
+  workflow_call:
+    inputs:
+      IGNORED:
+        # see https://github.com/pascalgn/size-label-action#configuration
+        required: false
+        type: string
+        default: ".*\n!.gitignore\nyarn.lock\npod.lock\n**/generated/**\nsrc/db/e2e/**\n**/*.md"
+      sizes:
+        required: false
+        type: string
+        default: >
+          {
+            "0": "XS",
+            "20": "S",
+            "50": "M",
+            "150": "L",
+            "300": "XL",
+            "500": "TOO-LARGE",
+            "800": "WAAY TOO LARGE"
+          }
+jobs:
+  size-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: size-label
+        uses: "pascalgn/size-label-action@v0.4.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          IGNORED: ${{ inputs.IGNORED }}
+        with:
+          sizes: ${{ inputs.sizes }}
