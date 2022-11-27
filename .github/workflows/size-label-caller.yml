@@ -1,0 +1,17 @@
+name: Label
+on: [ pull_request ]
+jobs:
+  label:
+    uses: ./.github/workflows/size-label.yml
+    with:
+      sizes: >
+        {
+          "0": "XS",
+          "10": "S",
+          "30": "M",
+          "50": "L",
+          "150": "XL",
+          "300": "TOO-LARGE",
+          "500": "WAAY TOO LARGE"
+        }
+
