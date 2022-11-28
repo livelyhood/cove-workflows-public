@@ -24,6 +24,7 @@ jobs:
         id: slack-committer
         uses: livelyhood/slack-committer@main
         with:
+          # see above or TLDR; https://www.workast.com/help/article/how-to-find-a-slack-user-id/
           user-mapping: >
             {
               "penchef": "UUSAQBVDZ",
