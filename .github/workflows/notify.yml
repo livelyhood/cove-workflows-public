@@ -29,7 +29,18 @@ jobs:
           # see above or TLDR; https://www.workast.com/help/article/how-to-find-a-slack-user-id/
           user-mapping: >
             {
+              "ali-ebner": "U03R7J7L96F",
+              "asabogal": "U021CBBP7K4",
+              "chase-cove": "U034GL9JUGN",
+              "chendoron": "U03B36Z4ZB8",
+              "jeremycove": "U048C5TV0",
+              "jlott": "U0484381LC8",
+              "mtijerino": "U036X7F97SQ",
+              "paulcove": U03JCF9AJE9",
               "penchef": "UUSAQBVDZ",
+              "ryan-vaneck": "U026CRYGMEU",
+              "sarathregi1": "U01TRLPMDPY",
+              "willyp63": "U0145C6JTT8",
               "fallback": "${{ env.DEV_CHANNEL_ID }}"
             }
       - name: Notify user
