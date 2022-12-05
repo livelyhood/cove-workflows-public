@@ -11,6 +11,7 @@ jobs:
   commitlint:
     env:
       NPM_TOKEN: ${{secrets.NPM_TOKEN_READ_ONLY}}
+      TITLE: ${{ github.event.pull_request.title }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,13 +33,13 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Lint PR title
         working-directory: ./cove-workflows-public
-        run: echo "${{ github.event.pull_request.title }}" | yarn commitlint:ci
+        run: echo "$TITLE" | yarn commitlint:ci
       - name: Collect commitlint error
         working-directory: ./cove-workflows-public
         id: collect-error
         if: failure()
         run: |
-          COMMITLINT_RESULT=$(echo "${{ github.event.pull_request.title }}" | yarn commitlint:ci 2>&1 | cat)
+          COMMITLINT_RESULT=$(echo "$TITLE" | yarn commitlint:ci 2>&1 | cat)
           echo "COMMITLINT_RESULT<<EOF" >> $GITHUB_ENV
           echo "$COMMITLINT_RESULT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
