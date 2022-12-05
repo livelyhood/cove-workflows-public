@@ -15,6 +15,8 @@ on:
     secrets:
       SLACK_BOT_TOKEN:
         required: true
+env:
+  DEV_CHANNEL_ID: "C013PVCCD3R"
 jobs:
   notify:
     runs-on: ubuntu-latest
@@ -28,7 +30,7 @@ jobs:
           user-mapping: >
             {
               "penchef": "UUSAQBVDZ",
-              "fallback": "C013PVCCD3R"
+              "fallback": "${{ env.DEV_CHANNEL_ID }}"
             }
       - name: Notify user
         env:
@@ -37,5 +39,14 @@ jobs:
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         with:
           channel_id: ${{ steps.slack-committer.outputs.username }}
+          status: FAILED
+          color: danger
+      - name: Notify dev-channel when on main
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        if: ${{ inputs.failure }} && github.ref == 'refs/heads/sl/chore/also-notify-dev'
+        uses: voxmedia/github-action-slack-notify-build@v1.5.0
+        with:
+          channel_id: ${{ env.DEV_CHANNEL_ID }}
           status: FAILED
           color: danger

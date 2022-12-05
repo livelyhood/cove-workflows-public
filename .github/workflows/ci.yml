@@ -1,8 +1,9 @@
 name: CI
-on: [push, pull_request]
-
-# env:
-#   NPM_TOKEN: ${{secrets.NPM_TOKEN_READ_ONLY}}
+on:
+  push:
+    branches:
+    - main
+  pull_request:
 jobs:
   actionlint:
     runs-on: ubuntu-latest
@@ -12,4 +13,10 @@ jobs:
         uses: docker://rhysd/actionlint:latest
         with:
           args: -color
-
+  notify-fail:
+    needs: [ actionlint ]
+    if: ${{ always() && ( contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') ) }}
+    uses: ./.github/workflows/notify.yml
+    secrets: inherit
+    with:
+      failure: true
