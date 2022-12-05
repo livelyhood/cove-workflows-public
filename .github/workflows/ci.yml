@@ -13,5 +13,10 @@ jobs:
         with:
           args: -color
       - run: exit 1
-
-
+  notify-fail:
+    needs: [ actionlint ]
+    if: ${{ always() && ( contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') ) }}
+    uses: livelyhood/cove-workflows-public/.github/workflows/notify.yml@sl/chore/also-notify-dev
+    secrets: inherit
+    with:
+      failure: true
