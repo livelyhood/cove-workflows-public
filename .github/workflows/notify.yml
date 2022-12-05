@@ -30,7 +30,7 @@ jobs:
           user-mapping: >
             {
               "penchef": "UUSAQBVDZ",
-              "fallback": ${{ env.DEV_CHANNEL_ID }}
+              "fallback": "${{ env.DEV_CHANNEL_ID }}"
             }
       - name: Notify user
         env:
