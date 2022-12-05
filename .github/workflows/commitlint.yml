@@ -1,0 +1,58 @@
+name: Commit Lint
+
+on:
+  workflow_call:
+    secrets:
+      NPM_TOKEN_READ_ONLY:
+        required: true
+      ADMIN_TOKEN_FOR_GITHUB_ACTIONS:
+        required: true
+jobs:
+  commitlint:
+    env:
+      NPM_TOKEN: ${{secrets.NPM_TOKEN_READ_ONLY}}
+      TITLE: ${{ github.event.pull_request.title }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check out cove-workflows-public
+        uses: actions/checkout@v3
+        with:
+          repository: livelyhood/cove-workflows-public
+          path: cove-workflows-public
+          token: ${{ secrets.ADMIN_TOKEN_FOR_GITHUB_ACTIONS }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+      - name: Install node_modules
+        working-directory: ./cove-workflows-public
+        run: yarn install --frozen-lockfile
+      - name: Lint PR title
+        working-directory: ./cove-workflows-public
+        run: echo "$TITLE" | yarn commitlint:ci
+      - name: Collect commitlint error
+        working-directory: ./cove-workflows-public
+        id: collect-error
+        if: failure()
+        run: |
+          COMMITLINT_RESULT=$(echo "$TITLE" | yarn commitlint:ci 2>&1 | cat)
+          echo "COMMITLINT_RESULT<<EOF" >> $GITHUB_ENV
+          echo "$COMMITLINT_RESULT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - name: Report commitlint failure
+        uses: actions/github-script@0.3.0
+        if: failure()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo } } = context;
+            github.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body: `💔 Oh No! The PR title is not a [conventional commit](https://github.com/livelyhood/engineering-documentation/blob/main/docs/adr/0002-git-workflow.md#conventional-branch-names-and-commit-messages) message! 💔\n\`\`\`${{ env.COMMITLINT_RESULT }}\`\`\``
+            });
