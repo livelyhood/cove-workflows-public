@@ -41,7 +41,7 @@ jobs:
           channel_id: ${{ steps.slack-committer.outputs.username }}
           status: FAILED
           color: danger
-      - name: Notify \#dev when on main
+      - name: Notify dev-channel when on main
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         if: ${{ inputs.failure }} && github.ref == 'refs/heads/sl/chore/also-notify-dev'

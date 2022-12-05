@@ -13,11 +13,10 @@ jobs:
         uses: docker://rhysd/actionlint:latest
         with:
           args: -color
-      - run: exit 1
   notify-fail:
     needs: [ actionlint ]
     if: ${{ always() && ( contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') ) }}
-    uses: livelyhood/cove-workflows-public/.github/workflows/notify.yml@sl/chore/also-notify-dev
+    uses: .github/workflows/notify.yml
     secrets: inherit
     with:
       failure: true
