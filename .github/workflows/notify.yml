@@ -55,7 +55,7 @@ jobs:
       - name: Notify dev-channel when on main
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        if: ${{ inputs.failure }} && github.ref == 'refs/heads/sl/chore/also-notify-dev'
+        if: ${{ inputs.failure && github.ref == 'refs/heads/main' }}
         uses: voxmedia/github-action-slack-notify-build@v1.5.0
         with:
           channel_id: ${{ env.DEV_CHANNEL_ID }}
