@@ -10,8 +10,9 @@ on:
   workflow_call:
     inputs:
       failure:
-        required: true
+        required: false
         type: boolean
+        default: true
     secrets:
       SLACK_BOT_TOKEN:
         required: true
