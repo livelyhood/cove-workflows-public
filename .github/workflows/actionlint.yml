@@ -1,0 +1,23 @@
+name: Lint GH Actions
+on:
+  workflow_call:
+  push:
+    branches:
+    - main
+  pull_request:
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check workflow files
+        uses: docker://rhysd/actionlint:latest
+        with:
+          args: -color
+  notify-fail:
+    needs: [ actionlint ]
+    if: ${{ always() && ( contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') ) }}
+    uses: ./.github/workflows/notify.yml
+    secrets: inherit
+    with:
+      failure: true
