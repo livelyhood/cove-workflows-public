@@ -1,0 +1,13 @@
+name: terraform-checks
+
+on:
+  workflow_call:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Lint Terraform
+        uses: actionshub/terraform-lint@main
+      - name: Static Terraform Security Check
+        uses: aquasecurity/tfsec-action@v1.0.0
