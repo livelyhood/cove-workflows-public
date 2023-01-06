@@ -5,7 +5,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v5
+      - uses: actions/stale@v7
         with:
           days-before-pr-stale: 3
           days-before-pr-close: 5
