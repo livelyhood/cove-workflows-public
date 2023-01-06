@@ -1,0 +1,15 @@
+name: 'Pull Request Close Stale PRs'
+on:
+  workflow_call:
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v5
+        with:
+          days-before-pr-stale: 3
+          days-before-pr-close: 5
+          stale-pr-message: 'This PR is stale because it has been open 3 days with no activity. Either remove "stale" label or comment on your PR or it will be closed in 2 days.'
+          close-pr-message: 'This PR was closed because it has been stalled for 5 days with no activity.'
+          exempt-pr-labels: 'dependencies, security'
+          operations-per-run: 400
